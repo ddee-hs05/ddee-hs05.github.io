@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Syahlan Hadyaksah · Sistem Koperasi &amp; Akuntansi</title>
+<meta name="description" content="Syahlan Hadyaksah membangun sistem untuk koperasi dan usaha kecil-menengah: simpan pinjam, pengadaan barang, dan pembukuan double-entry.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Syahlan Hadyaksah · Sistem Koperasi &amp; Akuntansi">
+<meta property="og:description" content="Syahlan Hadyaksah membangun sistem untuk koperasi dan usaha kecil-menengah: simpan pinjam, pengadaan barang, dan pembukuan double-entry.">
+<meta property="og:url" content="https://ddee-hs05.github.io/">
+<link rel="canonical" href="https://ddee-hs05.github.io/">
+<style>:root{color-scheme:light} img{max-width:100%}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: satu kolom baca, hero = "buku kas" dengan nomor dokumen asli; alur permintaan sebagai jalur dokumen bernomor */
+:root{
+  --bg:#F3F6F5; --surface:#FFFFFF; --fg:#13211D; --muted:#5A6B66; --line:#D5DFDB;
+  --accent:#0E6655; --accent-soft:#E0EFEA; --stamp:#A8661B; --stamp-soft:#F6EBDD;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Public Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1715; --surface:#16211E; --fg:#E4EDEA; --muted:#97A9A3; --line:#2A3a35;
+  --accent:#4FC2A5; --accent-soft:#163A31; --stamp:#E0A35A; --stamp-soft:#3A2A16; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1715; --surface:#16211E; --fg:#E4EDEA; --muted:#97A9A3; --line:#2A3a35;
+  --accent:#4FC2A5; --accent-soft:#163A31; --stamp:#E0A35A; --stamp-soft:#3A2A16; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:16px/1.65 var(--body);margin:0}
+.wrap{max-width:960px;margin:0 auto;padding-inline:20px;padding-block:48px 72px;display:flex;flex-direction:column;gap:72px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
+h1{font-size:clamp(2.1rem,5.5vw,3.6rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(1.5rem,3.4vw,2.1rem);font-weight:700;letter-spacing:-.01em}
+h3{font-size:1.1rem;font-weight:700}
+p{margin:0;max-width:65ch}
+.eyebrow{font:600 .75rem/1 var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--accent)}
+.muted{color:var(--muted)}
+.mono{font-family:var(--mono);font-size:.85em}
+section{display:flex;flex-direction:column;gap:20px}
+.ph{background:var(--stamp-soft);color:var(--stamp);padding:0 .3em;border-radius:3px;font-weight:600}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center}
+.hero > div{min-width:0;display:flex;flex-direction:column;gap:18px}
+.lead{font-size:1.15rem;color:var(--muted)}
+.ledger{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px 18px 10px;font-family:var(--mono);font-size:.8rem;box-shadow:0 18px 40px -28px rgba(0,0,0,.35)}
+.ledger header{display:flex;justify-content:space-between;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:6px}
+.row{display:grid;grid-template-columns:1fr auto auto;gap:12px;padding:7px 0;border-bottom:1px dashed var(--line);font-variant-numeric:tabular-nums}
+.row:last-child{border-bottom:0}
+.dr{color:var(--accent)} .cr{color:var(--stamp)}
+.ledger footer{display:flex;justify-content:space-between;padding:8px 0 4px;border-top:1px solid var(--fg);margin-top:4px;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:600 .78rem/1 var(--body);padding:7px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+
+/* kasus */
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.facts div{background:var(--surface);padding:16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.facts b{font-family:var(--display);font-size:1.25rem}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.two > div{min-width:0;display:flex;flex-direction:column;gap:10px}
+ul.clean{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px}
+ul.clean li::marker{color:var(--accent)}
+
+/* alur */
+.flow{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0;counter-reset:s}
+.step{display:grid;grid-template-columns:44px 1fr auto;gap:16px;align-items:start;padding:16px 0;border-top:1px solid var(--line);counter-increment:s}
+.step:last-child{border-bottom:1px solid var(--line)}
+.step::before{content:counter(s,decimal-leading-zero);font:600 .85rem/1.6 var(--mono);color:var(--accent)}
+.step > div{min-width:0;display:flex;flex-direction:column;gap:4px}
+.doc{font:600 .72rem/1 var(--mono);padding:6px 8px;border:1px solid var(--line);border-radius:4px;white-space:nowrap;align-self:start;color:var(--muted);background:var(--surface)}
+.doc.key{border-color:var(--stamp);color:var(--stamp);background:var(--stamp-soft)}
+.who{font:600 .72rem/1 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.note{border-left:3px solid var(--stamp);padding:4px 0 4px 14px;color:var(--muted)}
+
+/* dokumen */
+.docs{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.card .mono{color:var(--muted)}
+
+/* hasil */
+.results{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.results > div{display:flex;flex-direction:column;gap:6px;min-width:0;padding-top:14px;border-top:2px solid var(--accent)}
+
+/* teknis */
+.stack{display:flex;flex-wrap:wrap;gap:8px}
+.stack span{font:.8rem/1 var(--mono);padding:7px 9px;border:1px solid var(--line);border-radius:4px;background:var(--surface)}
+
+/* kontak */
+.contact{background:var(--fg);color:var(--bg);border-radius:8px;padding:32px;display:flex;flex-direction:column;gap:16px}
+.contact h2{color:var(--bg)}
+.contact .lead{color:var(--bg);opacity:.8}
+.contact .line{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-family:var(--mono);font-size:.9rem}
+.contact button{font:600 .8rem/1 var(--body);padding:9px 12px;border-radius:4px;border:1px solid var(--bg);background:transparent;color:var(--bg);cursor:pointer}
+.contact a{color:var(--bg);text-decoration:underline;text-underline-offset:3px}
+.contact button:focus-visible,a:focus-visible{outline:2px solid var(--stamp);outline-offset:2px}
+a{color:var(--accent)}
+
+@media (max-width:720px){
+  .hero,.two,.results{grid-template-columns:1fr}
+  .facts{grid-template-columns:1fr}
+  .step{grid-template-columns:34px 1fr}
+  .step .doc{grid-column:2;justify-self:start}
+  .contact{padding:22px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .ledger .row{animation:in .5s ease both}
+  .ledger .row:nth-child(3){animation-delay:.08s}.ledger .row:nth-child(4){animation-delay:.16s}.ledger .row:nth-child(5){animation-delay:.24s}
+  @keyframes in{from{transform:translateY(4px)}to{transform:none}}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section class="hero">
+    <div>
+      <span class="eyebrow">Developer sistem keuangan &amp; operasional</span>
+      <h1>Dari buku Excel ke sistem yang neracanya selalu seimbang.</h1>
+      <p class="lead">Saya Syahlan Hadyaksah, membangun sistem untuk koperasi dan usaha kecil-menengah: simpan pinjam, pengadaan barang, sampai pembukuan double-entry dan laporan RAT. Saya pengurus koperasi, jadi saya paham alur kerjanya dari dalam.</p>
+      <div class="chips">
+        <span class="chip">Koperasi simpan pinjam</span>
+        <span class="chip">Unit dagang &amp; pengadaan</span>
+        <span class="chip">Akuntansi double-entry</span>
+      </div>
+    </div>
+    <div class="ledger" aria-label="Contoh jurnal otomatis dari sistem">
+      <header><span>JURNAL OTOMATIS</span><span>contoh</span></header>
+      <div class="row"><span>Pencairan pinjaman</span><span></span><span></span></div>
+      <div class="row"><span>1.1.4 Piutang Pinjaman</span><span class="dr">5.000.000</span><span></span></div>
+      <div class="row"><span>1.1.2.1 Bank Mandiri Giro</span><span></span><span class="cr">4.912.500</span></div>
+      <div class="row"><span>4.1.2 Pendapatan Provisi &amp; Adm</span><span></span><span class="cr">87.500</span></div>
+      <footer><span>Seimbang</span><span>5.000.000 = 5.000.000</span></footer>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">Studi kasus</span>
+    <h2>Sistem terpadu untuk koperasi karyawan di Sulawesi</h2>
+    <p class="muted">Koperasi karyawan di bawah sebuah grup perusahaan, berdiri sejak 2023. Sebelumnya semua dicatat di Excel oleh satu orang bendahara.</p>
+    <div class="facts">
+      <div><b>2 unit usaha</b><span class="muted">Simpan pinjam dan unit dagang (pengadaan untuk cabang perusahaan)</span></div>
+      <div><b>4 jenis pengguna</b><span class="muted">Admin, pengurus, anggota, dan PIC cabang, masing-masing dengan halamannya sendiri</span></div>
+      <div><b>Data sejak 2023</b><span class="muted">Riwayat simpanan, pinjaman, dan transaksi dagang dipindahkan ke sistem</span></div>
+    </div>
+    <div class="two">
+      <div>
+        <h3>Masalah sebelumnya</h3>
+        <ul class="clean">
+          <li>Daftar potong gaji bulanan disusun manual di Excel, lalu dicetak bersama surat pengantar.</li>
+          <li>Neraca, hasil usaha, dan SHU untuk RAT dihitung ulang dengan tangan setiap tahun.</li>
+          <li>Permintaan barang dari cabang datang lewat chat, tanpa nomor dan tanpa jejak siapa yang meminta.</li>
+          <li>Anggota harus bertanya ke pengurus untuk tahu saldo simpanan atau sisa pinjaman.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Yang dibangun</h3>
+        <ul class="clean">
+          <li>Alur pinjaman lengkap: pengajuan, pemeriksaan admin, persetujuan pengurus, akad, pencairan, angsuran, pelunasan dipercepat.</li>
+          <li>Unit dagang dari permintaan cabang sampai kwitansi pembayaran.</li>
+          <li>Pembukuan double-entry: setiap transaksi otomatis menjadi jurnal yang dijamin seimbang.</li>
+          <li>Persetujuan berlapis (maker-approver) untuk tindakan berisiko, plus jejak audit.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">Sorotan</span>
+    <h2>Alur permintaan barang, dari tim lapangan sampai lunas</h2>
+    <p class="muted">Bagian yang paling banyak membantu sehari-hari. Setiap langkah punya pemilik yang jelas, dan setiap langkah menghasilkan dokumennya sendiri.</p>
+    <ol class="flow">
+      <li class="step"><div><span class="who">Tim lapangan</span><h3>Mengajukan kebutuhan barang</h3><p class="muted">Lewat halaman tanpa login. Setiap baris wajib diberi keterangan peruntukan. Belum ada nomor resmi, dan koperasi belum bisa melihatnya.</p></div><span class="doc">Draf permintaan</span></li>
+      <li class="step"><div><span class="who">PIC cabang</span><h3>Memeriksa, mengoreksi, dan menggabungkan</h3><p class="muted">PIC melihat semua permintaan timnya, mengoreksi jumlah, membuang yang tidak perlu, lalu menggabungkannya menjadi satu. Barang yang sama dijumlahkan, nama pengaju asli tetap tercatat.</p></div><span class="doc key">PMT-0042</span></li>
+      <li class="step"><div><span class="who">Admin koperasi</span><h3>Membuat pembelian ke supplier</h3><p class="muted">Isi otomatis dari satu atau beberapa permintaan sekaligus. Sistem memberi tanda kalau permintaan itu sudah pernah dipesan, supaya tidak dobel.</p></div><span class="doc">PB-0118</span></li>
+      <li class="step"><div><span class="who">Admin koperasi</span><h3>Menerima barang</h3><p class="muted">Barang boleh diterima sebelum lunas, sisanya tercatat sebagai hutang supplier. Stok dan harga pokok rata-rata ikut diperbarui.</p></div><span class="doc">Penerimaan</span></li>
+      <li class="step"><div><span class="who">Admin koperasi</span><h3>Menerbitkan invoice ke cabang</h3><p class="muted">Harga pokok dikunci saat invoice terbit. Beberapa sesi belanja bisa digabung menjadi satu tagihan, dan status permintaan tertutup otomatis.</p></div><span class="doc key">INV/0031/MGS/IX/26</span></li>
+      <li class="step"><div><span class="who">Cabang &amp; koperasi</span><h3>Pembayaran dan kwitansi</h3><p class="muted">Pembayaran sekali atau bertahap. PIC bisa mengecek status permintaan, invoice, dan saldo hutang cabangnya sendiri dengan PIN.</p></div><span class="doc">Kwitansi</span></li>
+    </ol>
+    <p class="note">Hasilnya: koperasi hanya menerima permintaan yang sudah disetujui PIC, cabang bisa memantau tagihannya sendiri, dan setiap barang bisa dilacak dari siapa yang meminta sampai kapan dibayar.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">Dokumen yang dihasilkan sistem</span>
+    <h2>Siap cetak, tanpa menyusun ulang di Excel</h2>
+    <div class="docs">
+      <div class="card"><h3>Akad pinjaman</h3><span class="mono">Disetujui anggota secara online</span><p class="muted">Lengkap dengan rincian provisi, biaya admin, dan jadwal angsuran.</p></div>
+      <div class="card"><h3>Daftar potong gaji</h3><span class="mono">Setiap tanggal 25</span><p class="muted">Angsuran dan simpanan wajib per anggota, dengan surat pengantar ke bagian keuangan.</p></div>
+      <div class="card"><h3>Permintaan &amp; pembelian</h3><span class="mono">PMT · PB</span><p class="muted">Dokumen bernomor yang menyimpan jejak pengaju dan supplier.</p></div>
+      <div class="card"><h3>Invoice &amp; kwitansi</h3><span class="mono">INV/…/MGS/…</span><p class="muted">Penagihan ke cabang dan bukti pembayaran.</p></div>
+      <div class="card"><h3>Neraca &amp; hasil usaha</h3><span class="mono">Banding dua tahun</span><p class="muted">Format laporan koperasi konvensional, berkelompok dengan subtotal.</p></div>
+      <div class="card"><h3>SHU &amp; arus kas</h3><span class="mono">Untuk RAT</span><p class="muted">Pembagian SHU berdasarkan simpanan dan transaksi anggota.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">Hasil</span>
+    <h2>Yang berubah setelah sistem berjalan</h2>
+    <div class="results">
+      <div><h3>Rekap potong gaji tinggal cetak</h3><p class="muted">Daftar potongan bulanan tersusun dari data angsuran dan simpanan yang sudah tercatat, tidak lagi disalin manual.</p></div>
+      <div><h3>Laporan RAT keluar dari sistem</h3><p class="muted">Neraca, hasil usaha, SHU, dan arus kas dibaca langsung dari jurnal. Neraca yang tidak seimbang langsung menunjuk transaksi yang terlewat.</p></div>
+      <div><h3>Data lama tidak hilang</h3><p class="muted">Riwayat sejak 2023, termasuk tiga kali perubahan tarif bunga, dipindahkan dengan pendekatan cutover tanpa merusak angka historis.</p></div>
+      <div><h3>Anggota mandiri</h3><p class="muted">Anggota bisa mengecek simpanan dan mengajukan pinjaman lewat portal, cukup dengan NIK dan nomor HP terdaftar.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">Di balik layar</span>
+    <h2>Dibuat untuk tetap jalan, bukan hanya untuk demo</h2>
+    <p class="muted">Berjalan di produksi dengan HTTPS, backup harian ke cloud, dan ratusan pemeriksaan otomatis yang dijalankan setiap kali ada perubahan kode.</p>
+    <div class="stack">
+      <span>Next.js 15</span><span>React 19</span><span>TypeScript</span><span>Prisma</span><span>SQLite</span><span>Docker</span><span>Caddy</span><span>GitHub Actions</span>
+    </div>
+  </section>
+
+  <section class="contact" aria-labelledby="kontak">
+    <h2 id="kontak">Usaha Anda masih bergantung pada Excel?</h2>
+    <p class="lead">Ceritakan alur kerjanya. Saya bantu memetakan mana yang perlu dibuat sistem dan mana yang cukup dirapikan.</p>
+    <div class="line"><span id="email">dhedy.haes@gmail.com</span><button type="button" id="copy">Salin email</button></div>
+    <div class="line"><a href="https://wa.me/6285395775757" target="_blank" rel="noopener">WhatsApp 0853-9577-5757</a><span aria-hidden="true">·</span><a href="https://www.linkedin.com/in/syahlan-hadyaksah-931553ab/" target="_blank" rel="noopener">LinkedIn</a></div>
+  </section>
+
+</div>
+<script>
+document.getElementById('copy').addEventListener('click',function(){
+  var b=this,t=document.getElementById('email').textContent.trim();
+  var done=function(){b.textContent='Tersalin';setTimeout(function(){b.textContent='Salin email'},1600)};
+  try{navigator.clipboard.writeText(t).then(done,function(){sel()})}catch(e){sel()}
+  function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('email'));var s=getSelection();s.removeAllRanges();s.addRange(r)}
+});
+</script>
+</body>
+</html>
