@@ -9,6 +9,10 @@
 <meta property="og:title" content="Syahlan Hadyaksah · Sistem Koperasi &amp; Akuntansi">
 <meta property="og:description" content="Syahlan Hadyaksah membangun sistem untuk koperasi dan usaha kecil-menengah: simpan pinjam, pengadaan barang, dan pembukuan double-entry.">
 <meta property="og:url" content="https://ddee-hs05.github.io/">
+<meta property="og:image" content="https://ddee-hs05.github.io/thumbnail.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="720">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://ddee-hs05.github.io/">
 <style>:root{color-scheme:light} img{max-width:100%}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -56,6 +60,10 @@ section{display:flex;flex-direction:column;gap:20px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{font:600 .78rem/1 var(--body);padding:7px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
 
+
+/* video demo */
+.video{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:#0b1512}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 /* kasus */
 .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden}
 .facts div{background:var(--surface);padding:16px;display:flex;flex-direction:column;gap:4px;min-width:0}
@@ -135,6 +143,16 @@ a{color:var(--accent)}
       <div class="row"><span>4.1.2 Pendapatan Provisi &amp; Adm</span><span></span><span class="cr">87.500</span></div>
       <footer><span>Seimbang</span><span>5.000.000 = 5.000.000</span></footer>
     </div>
+  </section>
+
+  <section aria-labelledby="demo">
+    <span class="eyebrow">Demo 3 menit</span>
+    <h2 id="demo">Lihat sistemnya bekerja</h2>
+    <p class="muted">Alur permintaan barang dari tim lapangan sampai laporan keuangan. Semua nama dan angka di video ini fiktif.</p>
+    <div class="video">
+      <iframe src="https://www.youtube-nocookie.com/embed/6GcUgfjn6vs" title="Demo sistem ERP koperasi" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
+    </div>
+    <p class="muted">Tidak muncul? <a href="https://youtu.be/6GcUgfjn6vs" target="_blank" rel="noopener">Tonton langsung di YouTube</a>.</p>
   </section>
 
   <section>
