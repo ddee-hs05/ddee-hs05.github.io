@@ -89,6 +89,10 @@ ul.clean li::marker{color:var(--accent)}
 .doc.key{border-color:var(--stamp);color:var(--stamp);background:var(--stamp-soft)}
 .who{font:600 .72rem/1 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
 .note{border-left:3px solid var(--stamp);padding:4px 0 4px 14px;color:var(--muted)}
+.quote blockquote{margin:0}
+.quote{margin:8px 0 0;padding:24px 28px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;display:flex;flex-direction:column;gap:12px}
+.quote p{font:500 clamp(1.1rem,2.4vw,1.35rem)/1.45 var(--display);max-width:none}
+.quote cite{font:600 .8rem/1 var(--mono);font-style:normal;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
 
 /* dokumen */
 .docs{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
@@ -248,6 +252,10 @@ a{color:var(--accent)}
       <div><h3>Data lama tidak hilang</h3><p class="muted">Riwayat sejak 2023, termasuk tiga kali perubahan tarif bunga, dipindahkan dengan pendekatan cutover tanpa merusak angka historis.</p></div>
       <div><h3>Anggota mandiri</h3><p class="muted">Anggota bisa mengecek simpanan dan mengajukan pinjaman lewat portal, cukup dengan NIK dan nomor HP terdaftar.</p></div>
     </div>
+    <figure class="quote">
+      <blockquote><p>&ldquo;Semua transaksi tercatat, semua koreksi lewat persetujuan, semua bisa ditelusuri. Kami jadi lebih tenang menjawab pertanyaan anggota.&rdquo;</p></blockquote>
+      <figcaption><cite>— Pengurus koperasi</cite></figcaption>
+    </figure>
   </section>
 
   <section>
