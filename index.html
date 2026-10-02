@@ -14,6 +14,7 @@
 <meta property="og:image:height" content="720">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://ddee-hs05.github.io/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230E6655'/%3E%3Cpath d='M9 11h14M9 16h14M9 21h14' stroke='%23fff' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>:root{color-scheme:light} img{max-width:100%}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,6 +60,11 @@ section{display:flex;flex-direction:column;gap:20px}
 .ledger footer{display:flex;justify-content:space-between;padding:8px 0 4px;border-top:1px solid var(--fg);margin-top:4px;font-weight:600}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{font:600 .78rem/1 var(--body);padding:7px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+.cta{display:flex;flex-wrap:wrap;gap:10px}
+.btn{font:600 .9rem/1 var(--body);padding:12px 16px;border-radius:6px;text-decoration:none;border:1px solid var(--accent)}
+.btn.primary{background:var(--accent);color:var(--surface)}
+.btn.ghost{color:var(--accent);background:transparent}
+.btn:focus-visible{outline:2px solid var(--stamp);outline-offset:2px}
 
 
 /* video demo */
@@ -133,6 +139,11 @@ a{color:var(--accent)}
         <span class="chip">Koperasi simpan pinjam</span>
         <span class="chip">Unit dagang &amp; pengadaan</span>
         <span class="chip">Akuntansi double-entry</span>
+        <span class="chip">Kepegawaian &amp; penggajian</span>
+      </div>
+      <div class="cta">
+        <a class="btn primary" href="https://wa.me/6285395775757?text=Halo%20Pak%20Syahlan%2C%20saya%20ingin%20konsultasi%20soal%20sistem%20untuk%20usaha/koperasi%20kami." target="_blank" rel="noopener">Konsultasi gratis via WhatsApp</a>
+        <a class="btn ghost" href="#demo">Tonton demo 3 menit</a>
       </div>
     </div>
     <div class="ledger" aria-label="Contoh jurnal otomatis dari sistem">
@@ -161,7 +172,7 @@ a{color:var(--accent)}
     <p class="muted">Koperasi karyawan di bawah sebuah grup perusahaan, berdiri sejak 2023. Sebelumnya semua dicatat di Excel oleh satu orang bendahara.</p>
     <div class="facts">
       <div><b>2 unit usaha</b><span class="muted">Simpan pinjam dan unit dagang (pengadaan untuk cabang perusahaan)</span></div>
-      <div><b>4 jenis pengguna</b><span class="muted">Admin, pengurus, anggota, dan PIC cabang, masing-masing dengan halamannya sendiri</span></div>
+      <div><b>6 peran pengguna</b><span class="muted">Admin, pengurus, pengawas, superadmin, anggota, dan PIC cabang, masing-masing dengan hak aksesnya sendiri</span></div>
       <div><b>Data sejak 2023</b><span class="muted">Riwayat simpanan, pinjaman, dan transaksi dagang dipindahkan ke sistem</span></div>
     </div>
     <div class="two">
@@ -195,7 +206,7 @@ a{color:var(--accent)}
       <li class="step"><div><span class="who">PIC cabang</span><h3>Memeriksa, mengoreksi, dan menggabungkan</h3><p class="muted">PIC melihat semua permintaan timnya, mengoreksi jumlah, membuang yang tidak perlu, lalu menggabungkannya menjadi satu. Barang yang sama dijumlahkan, nama pengaju asli tetap tercatat.</p></div><span class="doc key">PMT-0042</span></li>
       <li class="step"><div><span class="who">Admin koperasi</span><h3>Membuat pembelian ke supplier</h3><p class="muted">Isi otomatis dari satu atau beberapa permintaan sekaligus. Sistem memberi tanda kalau permintaan itu sudah pernah dipesan, supaya tidak dobel.</p></div><span class="doc">PB-0118</span></li>
       <li class="step"><div><span class="who">Admin koperasi</span><h3>Menerima barang</h3><p class="muted">Barang boleh diterima sebelum lunas, sisanya tercatat sebagai hutang supplier. Stok dan harga pokok rata-rata ikut diperbarui.</p></div><span class="doc">Penerimaan</span></li>
-      <li class="step"><div><span class="who">Admin koperasi</span><h3>Menerbitkan invoice ke cabang</h3><p class="muted">Harga pokok dikunci saat invoice terbit. Beberapa sesi belanja bisa digabung menjadi satu tagihan, dan status permintaan tertutup otomatis.</p></div><span class="doc key">INV/0031/MGS/IX/26</span></li>
+      <li class="step"><div><span class="who">Admin koperasi</span><h3>Menerbitkan invoice ke cabang</h3><p class="muted">Harga pokok dikunci saat invoice terbit. Beberapa sesi belanja bisa digabung menjadi satu tagihan, dan status permintaan tertutup otomatis.</p></div><span class="doc key">INV/0031/KOP/IX/26</span></li>
       <li class="step"><div><span class="who">Cabang &amp; koperasi</span><h3>Pembayaran dan kwitansi</h3><p class="muted">Pembayaran sekali atau bertahap. PIC bisa mengecek status permintaan, invoice, dan saldo hutang cabangnya sendiri dengan PIN.</p></div><span class="doc">Kwitansi</span></li>
     </ol>
     <p class="note">Hasilnya: koperasi hanya menerima permintaan yang sudah disetujui PIC, cabang bisa memantau tagihannya sendiri, dan setiap barang bisa dilacak dari siapa yang meminta sampai kapan dibayar.</p>
@@ -208,9 +219,23 @@ a{color:var(--accent)}
       <div class="card"><h3>Akad pinjaman</h3><span class="mono">Disetujui anggota secara online</span><p class="muted">Lengkap dengan rincian provisi, biaya admin, dan jadwal angsuran.</p></div>
       <div class="card"><h3>Daftar potong gaji</h3><span class="mono">Setiap tanggal 25</span><p class="muted">Angsuran dan simpanan wajib per anggota, dengan surat pengantar ke bagian keuangan.</p></div>
       <div class="card"><h3>Permintaan &amp; pembelian</h3><span class="mono">PMT · PB</span><p class="muted">Dokumen bernomor yang menyimpan jejak pengaju dan supplier.</p></div>
-      <div class="card"><h3>Invoice &amp; kwitansi</h3><span class="mono">INV/…/MGS/…</span><p class="muted">Penagihan ke cabang dan bukti pembayaran.</p></div>
+      <div class="card"><h3>Invoice &amp; kwitansi</h3><span class="mono">INV/…/KOP/…</span><p class="muted">Penagihan ke cabang dan bukti pembayaran.</p></div>
       <div class="card"><h3>Neraca &amp; hasil usaha</h3><span class="mono">Banding dua tahun</span><p class="muted">Format laporan koperasi konvensional, berkelompok dengan subtotal.</p></div>
       <div class="card"><h3>SHU &amp; arus kas</h3><span class="mono">Untuk RAT</span><p class="muted">Pembagian SHU berdasarkan simpanan dan transaksi anggota.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">Modul lain dalam sistem yang sama</span>
+    <h2>Bukan hanya simpan pinjam</h2>
+    <p class="muted">Semua modul berbagi data anggota, kas, dan jurnal yang sama, jadi tidak ada angka yang perlu dicocokkan antar-aplikasi.</p>
+    <div class="docs">
+      <div class="card"><h3>Kepegawaian &amp; gaji</h3><span class="mono">Absensi · cuti · payroll</span><p class="muted">Data karyawan, kontrak, absensi, cuti, hari libur, sampai penggajian bulanan.</p></div>
+      <div class="card"><h3>Aset tetap</h3><span class="mono">Penyusutan otomatis</span><p class="muted">Daftar aset, penyusutan per bulan, dan pelepasan aset, langsung masuk neraca.</p></div>
+      <div class="card"><h3>Tutup buku &amp; RAT</h3><span class="mono">Periode terkunci</span><p class="muted">Periode yang sudah ditutup tidak bisa diubah. Keputusan RAT dan hak SHU tiap anggota tercatat.</p></div>
+      <div class="card"><h3>Kas &amp; kolektibilitas</h3><span class="mono">Multi-rekening · gaya OJK</span><p class="muted">Setiap uang masuk dan keluar menyebut lewat kas mana. Piutang pinjaman dikelompokkan Lancar sampai Macet, lengkap dengan saran cadangan kerugian.</p></div>
+      <div class="card"><h3>Tanda tangan &amp; notifikasi</h3><span class="mono">Digital · push</span><p class="muted">Tanda tangan pengurus tersimpan di sistem dan ikut tercetak di dokumen. Anggota mendapat notifikasi di HP saat status pinjamannya berubah.</p></div>
+      <div class="card"><h3>Website profil</h3><span class="mono">Berita &amp; kegiatan</span><p class="muted">Halaman publik koperasi yang isinya dikelola sendiri oleh pengurus, tanpa developer.</p></div>
     </div>
   </section>
 
@@ -228,9 +253,14 @@ a{color:var(--accent)}
   <section>
     <span class="eyebrow">Di balik layar</span>
     <h2>Dibuat untuk tetap jalan, bukan hanya untuk demo</h2>
-    <p class="muted">Berjalan di produksi dengan HTTPS, backup harian ke cloud, dan ratusan pemeriksaan otomatis yang dijalankan setiap kali ada perubahan kode.</p>
+    <div class="results">
+      <div><h3>Data anggota tetap di server Anda</h3><p class="muted">NIK, gaji, dan saldo anggota tidak pernah ikut keluar dari server. Akses dibatasi per peran, login dibatasi jumlah percobaannya, dan semua koneksi lewat HTTPS.</p></div>
+      <div><h3>Backup harian otomatis</h3><p class="muted">Database dan foto nota dicadangkan setiap malam ke Google Drive milik koperasi sendiri.</p></div>
+      <div><h3>500+ uji otomatis</h3><p class="muted">Perhitungan bunga, angsuran, stok, SHU, dan neraca diuji ulang setiap kali kode diubah. Perubahan yang membuat angka salah tidak bisa naik ke produksi.</p></div>
+      <div><h3>Biaya server ringan</h3><p class="muted">Berjalan lancar di server kecil 1 GB RAM. Tidak perlu lisensi bulanan per pengguna, dan sistem terus dirawat dengan ratusan pembaruan sejak awal dipakai.</p></div>
+    </div>
     <div class="stack">
-      <span>Next.js 15</span><span>React 19</span><span>TypeScript</span><span>Prisma</span><span>SQLite</span><span>Docker</span><span>Caddy</span><span>GitHub Actions</span>
+      <span>Next.js 16</span><span>React 19</span><span>TypeScript</span><span>Prisma</span><span>SQLite</span><span>Docker</span><span>Caddy</span><span>GitHub Actions</span>
     </div>
   </section>
 
